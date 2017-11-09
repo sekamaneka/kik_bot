@@ -36,6 +36,8 @@ def incoming():
 
 
 def response_picker(message):
+    """Handle duckduckgo api."""
+
     base = "http://api.duckduckgo.com/?q="
     args = "&format=json&no_html=1"
     string = base + urllib.parse.quote(message.body) + args
@@ -43,37 +45,56 @@ def response_picker(message):
     dict_of_data = json.loads(data)
     # for i,j in dict_of_data.items():
     #    print(i,j)
-    atype = dict_of_data["AnswerType"]
     rtype = dict_of_data["Type"]
     if rtype == 'D':
-        data = dict_of_data["RelatedTopics"][0]
-        instant_text = data["Text"]
-        instant_url = data["FirstURL"]
-        instant_pic = data["Icon"]["URL"]
-        send_messages(message, instant_url, instant_text, instant_pic, 1)
+        dissambiguation_t(message, dict_of_data)
     elif rtype == 'A':
-        instant_text = dict_of_data["Abstract"]
-        instant_url = dict_of_data["AbstractURL"]
-        instant_pic = dict_of_data["Image"]
-        send_messages(message, instant_url, instant_text, instant_pic, 1)
+        article_t(message, dict_of_data)
     elif rtype == 'C':
         pass
     elif rtype == 'N':
         instant_text = "This is a regular, real or imaginary person. Finding information about them should be harder than this."
         send_messages(message, "", instant_text, 0)
     elif rtype == 'E':
-        if atype == 'calc':
-            send_messages(message, inc_url=string[:-len(args)], text_to_send=message.body, link=1, inc_title="Calculator")
-            # break
-        else:
-            instant_text = dict_of_data["Answer"]
-            send_messages(message, text_to_send=instant_text)
+        exclusive_t(message, dict_of_data, args, string)
     else:
         instant_url = "https://safe.duckduckgo.com/?q=" + urllib.parse.quote(message.body)
         send_messages(message, instant_url, message.body, "https://computerbeast.files.wordpress.com/2010/08/duck-duck-go.png", 1)
 
 
+def dissambiguation_t(message, dict_of_data):
+    """Handle dissambiguation type answer."""
+
+    data = dict_of_data["RelatedTopics"][0]
+    instant_text = data["Text"]
+    instant_url = data["FirstURL"]
+    instant_pic = data["Icon"]["URL"]
+    send_messages(message, instant_url, instant_text, instant_pic, 1)
+
+
+def article_t(message, dict_of_data):
+    """Handle article type answer."""
+
+    instant_text = dict_of_data["Abstract"]
+    instant_url = dict_of_data["AbstractURL"]
+    instant_pic = dict_of_data["Image"]
+    send_messages(message, instant_url, instant_text, instant_pic, 1)
+
+
+def exclusive_t(message, dict_of_data, args, string):
+    """Handle exclusive types. There are a lot of subtypes."""
+
+    atype = dict_of_data["AnswerType"]
+    if atype == 'calc':
+        send_messages(message, inc_url=string[:-len(args)], text_to_send=message.body, link=1, inc_title="Calculator")
+    else:
+        instant_text = dict_of_data["Answer"]
+        send_messages(message, text_to_send=instant_text)
+
+
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
+    """Send the search results to the client."""
+
     if link:
         kik.send_messages([
             LinkMessage(
@@ -116,13 +137,14 @@ def handle_secondary_message_types(message):
 
 
 def goo_shorten_url(url):
-    """ Use google api to shorten results. """
+    """Use google api to shorten results."""
+
     post_url = 'https://www.googleapis.com/urlshortener/v1/url?key={}'.format(config["google_api_key"])
     payload = {'longUrl': url}
     headers = {'content-type': 'application/json'}
     r = requests.post(post_url, data=json.dumps(payload), headers=headers)
     # return only the relevant link
-    return (json.loads(r.text)["id"])
+    return json.loads(r.text)["id"]
 
 
 if __name__ == "__main__":
