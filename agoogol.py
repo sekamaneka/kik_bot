@@ -39,15 +39,15 @@ def response_picker(message):
     """Handle duckduckgo api."""
 
     base = "http://api.duckduckgo.com/?q="
-    args = "&format=json&no_html=1&no_redirect=1"
+    args = "&format=json&no_html=1&no_redirect=1&t=b4d4b00mb4d4b00m"
     string = base + urllib.parse.quote(message.body) + args
     data = (requests.get(string).text)
     dict_of_data = json.loads(data)
-    #print(string)
-    #for i,j in dict_of_data.items():
+    # print(string)
+    # for i,j in dict_of_data.items():
     #   print(i,j)
     rtype = dict_of_data["Type"]
-    #print(message.body)
+    # print(message.body)
     if rtype == 'D':
         dissambiguation_t(message, dict_of_data)
     elif rtype == 'A':
@@ -93,9 +93,9 @@ def exclusive_t(message, dict_of_data, args, string):
         send_messages(message, inc_url=string[:-len(args)], text_to_send=message.body, link=1, inc_title="Calculator")
     elif redirect:
         a = message.body.split()
-        inc_title = a[0]
+        # inc_title = a[0]
         text_to_send = " ".join([i for i in a[1:]])
-        send_messages(message, inc_url = redirect, link=1, text_to_send=text_to_send, instant_pic="https://computerbeast.files.wordpress.com/2010/08/duck-duck-go.png")
+        send_messages(message, inc_url=redirect, link=1, text_to_send=text_to_send, instant_pic="https://computerbeast.files.wordpress.com/2010/08/duck-duck-go.png")
     else:
         instant_text = dict_of_data["Answer"]
         send_messages(message, text_to_send=instant_text)
