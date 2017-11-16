@@ -28,6 +28,8 @@ def incoming():
             print(message.from_user)
             print("----------------")
             handle_secondary_message_types(message)
+            if handle_bot_names(message):
+                break
             if isinstance(message, TextMessage):
                 response_picker(message)
     except IndexError:
@@ -143,6 +145,14 @@ def handle_secondary_message_types(message):
         send_messages(message, text_to_send="Ex: @agoogol Michaelangelo")
         send_messages(message, text_to_send="Ex: @agoogol 1001/1337")
         send_messages(message, text_to_send="Ex: @agoogol UN")
+
+
+def handle_bot_names(message):
+    """Reply if a user instead of text supplies a bot username."""
+    if message.mention:
+        send_messages(message, text_to_send="We are not friends with this particular bot. His past is dark.")
+        return 1
+    return 0
 
 
 def goo_shorten_url(url):
