@@ -25,13 +25,14 @@ def incoming():
     messages = messages_from_json(request.json['messages'])
     try:
         for message in messages:
-            print(message.from_user)
-            print("----------------")
-            handle_secondary_message_types(message)
-            if handle_bot_names(message):
-                break
-            if isinstance(message, TextMessage):
-                response_picker(message)
+            if message.body:
+                print(message.from_user)
+                print("----------------")
+                handle_secondary_message_types(message)
+                # if handle_bot_names(message):
+                #    break
+                if isinstance(message, TextMessage):
+                    response_picker(message)
     except IndexError:
         print("No messages found")
     return Response(status=200)
@@ -43,7 +44,7 @@ def response_picker(message):
     base = "http://api.duckduckgo.com/?q="
     args = "&format=json&no_html=1&no_redirect=1&t=b4d4b00mb4d4b00m"
     string = base + urllib.parse.quote(message.body) + args
-    data = (requests.get(string).text)
+    data = requests.get(string).text
     dict_of_data = json.loads(data)
     # print(string)
     # for i,j in dict_of_data.items():
@@ -149,6 +150,9 @@ def handle_secondary_message_types(message):
 
 def handle_bot_names(message):
     """Reply if a user instead of text supplies a bot username."""
+
+    print(message.body)
+    print(message.mention)
     if message.mention:
         send_messages(message, text_to_send="We are not friends with this particular bot. His past is dark.")
         return 1
