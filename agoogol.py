@@ -33,7 +33,7 @@ def incoming():
                 #    break
                 if isinstance(message, TextMessage):
                     response_picker(message)
-    except IndexError:
+    except (IndexError, AttributeError) as error:
         print("No messages found")
     return Response(status=200)
 
