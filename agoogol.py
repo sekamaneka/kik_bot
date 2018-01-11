@@ -26,8 +26,7 @@ def incoming():
     try:
         for message in messages:
             if message.body:
-                print(message.from_user)
-                print("----------------")
+                print(message.from_user, ':',  message.body)
                 handle_secondary_message_types(message)
                 # if handle_bot_names(message):
                 #    break
@@ -171,4 +170,4 @@ def goo_shorten_url(url):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=config["port"], debug=False)
+    app.run(host='0.0.0.0', port=int(config["port"]), debug=False)
