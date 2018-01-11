@@ -7,6 +7,7 @@ import requests
 from flask import Flask, request, Response
 from kik import KikApi, Configuration
 from kik.messages import messages_from_json, TextMessage, StartChattingMessage, ScanDataMessage, StickerMessage, VideoMessage, PictureMessage, LinkMessage
+from raven import Client
 
 with open('data.json') as d:
     config = json.load(d)
@@ -26,14 +27,14 @@ def incoming():
     try:
         for message in messages:
             if message.body:
-                print(message.from_user, ':',  message.body)
+                print(message.from_user, ':', message.body)
                 handle_secondary_message_types(message)
                 # if handle_bot_names(message):
                 #    break
                 if isinstance(message, TextMessage):
                     response_picker(message)
     except (IndexError, AttributeError) as error:
-        print("No messages found")
+        print("No messages found.", error)
     return Response(status=200)
 
 
@@ -170,4 +171,5 @@ def goo_shorten_url(url):
 
 
 if __name__ == "__main__":
+    raven_client = Client(config['sentry_hook'])
     app.run(host='0.0.0.0', port=int(config["port"]), debug=False)
