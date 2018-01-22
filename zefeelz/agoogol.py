@@ -53,12 +53,12 @@ def response_picker(message):
     accuracy = max(sentiment.p_pos, sentiment.p_neg)
     if polarity > 0:
         send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nPositivity: {}%".format(
-            subjectivity * 100, round(accuracy, 2), round(polarity * 100, 0)))
+            subjectivity * 100, int(accuracy * 100), int(polarity * 100)))
 
     # txt_polar="Your tone is {}% Positive\n".format(polarity * 100)
     if polarity < 0:
         send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nNegativity: {}%".format(
-            subjectivity * 100, round(accuracy, 2), round(polarity * 100, 0)))
+            subjectivity * 100, int(accuracy * 100), int(-polarity * 100)))
     # txt_polar="Your tone is {}% Negative\n".format(polarity * 100)
     if polarity == 0:
         send_messages(message, text_to_send="Your tone is too neutral for me to determine something. Congratulations.")
