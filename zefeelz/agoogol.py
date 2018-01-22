@@ -4,7 +4,7 @@ import json
 import requests
 # import urllib
 
-from textblob import TextBlob
+from textblob import Blobber
 from textblob.sentiments import NaiveBayesAnalyzer
 from flask import Flask, request, Response
 from kik import KikApi, Configuration
