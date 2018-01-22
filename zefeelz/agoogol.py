@@ -66,9 +66,9 @@ def response_picker(message):
     if subjectivity < 0.2:
         txt_subj = "Your truth is very objective.\n"
 
-    if sentiment_label = 'pos':
+    if sentiment_label == 'pos':
         sentiment_label = 'Positive Vibes.'
-    if sentiment_label = 'neg':
+    if sentiment_label == 'neg':
         sentiment_label = 'Negative Vibes.'
     # send_messages(message, text_to_send=txt_polar + txt_subj)
     send_messages(message, text_to_send="*Polarity: {}%\n*Subjectivity: {}%\n*Sentiment: {}\n*Accuracy: {}%".format(
