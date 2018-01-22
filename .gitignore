@@ -1,2 +1,4 @@
 *.json
 *.swp
+*.csv
+*.pickle
