@@ -17,6 +17,7 @@ print(config)
 app = Flask(__name__)
 kik = KikApi(config["bot_name"], config["api_key"])
 kik.set_configuration(Configuration(webhook=config["hostname"]))
+blobber = Blobber(analyzer=NaiveBayesAnalyzer())  # , classifier = cl)
 
 
 @app.route('/', methods=['POST'])
@@ -42,15 +43,11 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    #analysis_pattern = TextBlob(data).correct().sentiment
-    #polarity_pattern = analysis_pattern.polarity
-    #subjectivity_pattern = analysis_pattern.subjectivity
-    analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer()).correct().sentiment
-    print(type(analysis_bayes))
-    print(dir(analysis_bayes))
-    polarity_bayes = analysis_bayes.p_pos - analysis_bayes.p_neg
-    polarity = (polarity_bayes + polarity_pattern) / 2
-    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity_pattern))
+    analysis_bayes = blobber(data).correct()
+    sentiment = analysis_bayes.sentiment
+    subjectivity = analysis_bayes.subjectivity
+    polarity_bayes = sentiment.p_pos - sentiment.p_neg
+    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity_bayes, subjectivity))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
