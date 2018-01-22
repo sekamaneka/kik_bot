@@ -45,6 +45,7 @@ def response_picker(message):
     data = message.body
     analysis_bayes = blobber(data).correct()
     sentiment = analysis_bayes.sentiment
+    print(sentiment)
     subjectivity = analysis_bayes.subjectivity
     polarity_bayes = sentiment.p_pos - sentiment.p_neg
     send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity_bayes, subjectivity))
