@@ -41,7 +41,7 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis = TextBlob(data)
+    analysis = TextBlob(data).sentiment
     send_messages(message, text_to_send=str(analysis))
 
 
