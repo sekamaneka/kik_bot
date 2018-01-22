@@ -9,6 +9,7 @@ from flask import Flask, request, Response
 from kik import KikApi, Configuration
 from kik.messages import messages_from_json, TextMessage, StartChattingMessage, ScanDataMessage, StickerMessage, VideoMessage, PictureMessage, LinkMessage
 from raven import Client
+from textblob.sentiments import NaiveBayesAnalyzer
 
 with open('data.json') as d:
     config = json.load(d)
@@ -41,10 +42,13 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis = TextBlob(data).sentiment.correct()
-    polarity = analysis.polarity
-    subjectivity = analysis.subjectivity
-    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity))
+    analysis_pattern = TextBlob(data).sentiment.correct()
+    polarity_pattern = analysis_pattern.polarity_pattern
+    subjectivity_pattern = analysis_pattern.subjectivity_pattern
+    analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer())
+    polarity_bayes = analysis_bayes.p_pos - analysis_bayes.p_neg
+    polarity = (polarity_bayes + polarity_pattern) / 2
+    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity_pattern))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
