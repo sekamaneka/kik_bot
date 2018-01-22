@@ -5,11 +5,11 @@ import requests
 # import urllib
 
 from textblob import TextBlob
+from textblob.sentiments import NaiveBayesAnalyzer
 from flask import Flask, request, Response
 from kik import KikApi, Configuration
 from kik.messages import messages_from_json, TextMessage, StartChattingMessage, ScanDataMessage, StickerMessage, VideoMessage, PictureMessage, LinkMessage
 from raven import Client
-from textblob.sentiments import NaiveBayesAnalyzer
 
 with open('data.json') as d:
     config = json.load(d)
@@ -42,9 +42,9 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis_pattern = TextBlob(data).correct().sentiment
-    polarity_pattern = analysis_pattern.polarity
-    subjectivity_pattern = analysis_pattern.subjectivity
+    #analysis_pattern = TextBlob(data).correct().sentiment
+    #polarity_pattern = analysis_pattern.polarity
+    #subjectivity_pattern = analysis_pattern.subjectivity
     analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer()).correct().sentiment
     print(type(analysis_bayes))
     print(dir(analysis_bayes))
