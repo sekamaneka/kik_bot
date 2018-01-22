@@ -51,11 +51,17 @@ def response_picker(message):
     print(sentiment)
     print(type(sentiment))
     accuracy = max(sentiment.p_pos, sentiment.p_neg)
-    # if polarity > 0:
+    if polarity > 0:
+        send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nPositivity: {}%".format(
+            subjectivity * 100, round(accuracy, 2), round(polarity * 100, 0)))
+
     # txt_polar="Your tone is {}% Positive\n".format(polarity * 100)
-    # if polarity < 0:
+    if polarity < 0:
+        send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nNegativity: {}%".format(
+            subjectivity * 100, round(accuracy, 2), round(polarity * 100, 0)))
     # txt_polar="Your tone is {}% Negative\n".format(polarity * 100)
-    # if polarity == 0:
+    if polarity == 0:
+        send_messages(message, text_to_send="Your tone is too neutral for me to determine something. Congratulations.")
     # txt_polar="Your tone is Neutral. Like a Machine.\n"
     # if subjectivity > 0.80:
     # txt_subj="Your truth is very subjective.\n"
@@ -70,8 +76,6 @@ def response_picker(message):
     # if sentiment_label == 'neg':
     #sentiment_label = 'Negative Vibes :('
     # send_messages(message, text_to_send=txt_polar + txt_subj)
-    send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nPolarity: {}%".format(
-        subjectivity * 100, round(accuracy, 2), round(polarity * 100, 0)))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
