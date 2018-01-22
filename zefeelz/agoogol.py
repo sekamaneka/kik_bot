@@ -46,6 +46,8 @@ def response_picker(message):
     polarity_pattern = analysis_pattern.polarity
     subjectivity_pattern = analysis_pattern.subjectivity
     analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer()).correct().sentiment
+    print(type(analysis_bayes))
+    print(dir(analysis_bayes))
     polarity_bayes = analysis_bayes.p_pos - analysis_bayes.p_neg
     polarity = (polarity_bayes + polarity_pattern) / 2
     send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity_pattern))
