@@ -45,13 +45,12 @@ def response_picker(message):
     data = message.body
     analysis_bayes = blobber(data)
     sentiment = analysis_bayes.sentiment
-    print(sentiment)
     subjectivity = analysis_bayes.subjectivity
     polarity = analysis_bayes.polarity
-    sentiment = sentiment.classification
+    sentiment_label = sentiment.classification
     accuracy = max(sentiment.p_pos, sentiment.p_neg)
 
-    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}\nSentiment: {}\nAccuracy: {}".format(polarity, subjectivity, sentiment, accuracy))
+    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}\nSentiment: {}\nAccuracy: {}".format(polarity, subjectivity, sentiment_label, accuracy))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
