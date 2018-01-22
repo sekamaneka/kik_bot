@@ -44,7 +44,7 @@ def response_picker(message):
     analysis = TextBlob(data).sentiment
     polarity = analysis.polarity
     subjectivity = analysis.subjectivity
-    send_messages(message, text_to_send=str(analysis))
+    send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity)
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
@@ -105,14 +105,14 @@ def handle_bot_names(message):
 def goo_shorten_url(url):
     """Use google api to shorten results."""
 
-    post_url = 'https://www.googleapis.com/urlshortener/v1/url?key={}'.format(config["google_api_key"])
-    payload = {'longUrl': url}
-    headers = {'content-type': 'application/json'}
-    r = requests.post(post_url, data=json.dumps(payload), headers=headers)
+    post_url='https://www.googleapis.com/urlshortener/v1/url?key={}'.format(config["google_api_key"])
+    payload={'longUrl': url}
+    headers={'content-type': 'application/json'}
+    r=requests.post(post_url, data=json.dumps(payload), headers=headers)
     # return only the relevant link
     return json.loads(r.text)["id"]
 
 
 if __name__ == "__main__":
-    raven_client = Client(config['sentry_hook'])
+    raven_client=Client(config['sentry_hook'])
     app.run(host='0.0.0.0', port=int(config["port"]), debug=False)
