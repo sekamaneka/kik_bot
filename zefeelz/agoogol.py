@@ -42,7 +42,7 @@ def incoming():
 def response_picker(message):
     data = message.body
     analysis = TextBlob(data)
-    send_messages(message, text_to_send=analysis)
+    send_messages(message, text_to_send=str(analysis))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
