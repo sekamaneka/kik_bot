@@ -43,7 +43,7 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis_bayes = blobber(data).correct()
+    analysis_bayes = blobber(data)
     sentiment = analysis_bayes.sentiment
     print(sentiment)
     subjectivity = analysis_bayes.subjectivity
