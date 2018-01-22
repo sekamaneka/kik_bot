@@ -114,12 +114,11 @@ def handle_secondary_message_types(message):
     if isinstance(message, PictureMessage):
         send_messages(message, text_to_send="Nice picture!")
     if isinstance(message, (StartChattingMessage, ScanDataMessage)):
-        send_messages(message, text_to_send="Hello and welcome")
-        send_messages(message, text_to_send="This bot is your portal to unlimited knowledge, with the added side effect of pwning your friends when they start spewing about incorrect facts")
-        send_messages(message, text_to_send="To use in a group conversation ping the bot with the keywords you want to use")
-        send_messages(message, text_to_send="Ex: @agoogol Michaelangelo")
-        send_messages(message, text_to_send="Ex: @agoogol 1001/1337")
-        send_messages(message, text_to_send="Ex: @agoogol UN")
+        send_messages(message, text_to_send="Hello and welcome.")
+        send_messages(message, text_to_send="This bot is your portal to an improved Emotional Intelligence.")
+        send_messages(message, text_to_send="Test your texting style and match it to that of your peers.")
+        send_messages(message, text_to_send="PROTIP: If you have a crush you text with don't let your texts appear more positive than theirs.")
+        send_messages(message, text_to_send="I respond to any text with 3 metrics that resemble the sentiment of the text based on machine learning.")
 
 
 def handle_bot_names(message):
