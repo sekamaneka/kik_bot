@@ -41,7 +41,7 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis = TextBlob(data).sentiment
+    analysis = TextBlob(data).sentiment.correct()
     polarity = analysis.polarity
     subjectivity = analysis.subjectivity
     send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity))
