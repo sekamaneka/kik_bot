@@ -66,8 +66,13 @@ def response_picker(message):
     if subjectivity < 0.2:
         txt_subj = "Your truth is very objective.\n"
 
-    send_messages(message, text_to_send=txt_polar + txt_subj)
-    #send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}\nSentiment: {}\nAccuracy: {}".format(polarity, subjectivity, sentiment_label, accuracy))
+    if sentiment_label = 'pos':
+        sentiment_label = 'Positive Vibes.'
+    if sentiment_label = 'neg':
+        sentiment_label = 'Negative Vibes.'
+    # send_messages(message, text_to_send=txt_polar + txt_subj)
+    send_messages(message, text_to_send="*Polarity: {}%\n*Subjectivity: {}%\n*Sentiment: {}\n*Accuracy: {}%".format(
+        polarity * 100, subjectivity * 100, sentiment_label, round(accuracy, 2)))
 
 
 def send_messages(message, inc_url="", text_to_send="", instant_pic="", link=0, inc_title=""):
