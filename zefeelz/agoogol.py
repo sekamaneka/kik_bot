@@ -48,6 +48,8 @@ def response_picker(message):
     subjectivity = analysis_bayes.subjectivity
     polarity = analysis_bayes.polarity
     sentiment_label = sentiment.classification
+    print(sentiment)
+    print(type(sentiment))
     accuracy = max(sentiment.p_pos, sentiment.p_neg)
 
     send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}\nSentiment: {}\nAccuracy: {}".format(polarity, subjectivity, sentiment_label, accuracy))
