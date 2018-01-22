@@ -42,10 +42,10 @@ def incoming():
 
 def response_picker(message):
     data = message.body
-    analysis_pattern = TextBlob(data).sentiment.correct()
+    analysis_pattern = TextBlob(data).correct().sentiment
     polarity_pattern = analysis_pattern.polarity_pattern
     subjectivity_pattern = analysis_pattern.subjectivity_pattern
-    analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer())
+    analysis_bayes = TextBlob(data, analyzer=NaiveBayesAnalyzer()).correct().sentiment
     polarity_bayes = analysis_bayes.p_pos - analysis_bayes.p_neg
     polarity = (polarity_bayes + polarity_pattern) / 2
     send_messages(message, text_to_send="Polarity: {}\nSubjectivity: {}".format(polarity, subjectivity_pattern))
