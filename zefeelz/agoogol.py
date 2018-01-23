@@ -20,9 +20,6 @@ if parentPath not in sys.path:
 import utility
 
 
-utility.run()
-
-
 @utility.app.route('/', methods=['POST'])
 def incoming():
     """Handle incoming traffic."""
@@ -79,3 +76,6 @@ def response_picker(message):
     # if sentiment_label == 'neg':
     #sentiment_label = 'Negative Vibes :('
     # send_messages(message, text_to_send=txt_polar + txt_subj)
+
+
+utility.run()
