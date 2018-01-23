@@ -29,13 +29,11 @@ def incoming():
     messages = messages_from_json(request.json['messages'])
     try:
         for message in messages:
-            if message.body:
+            if isinstance(message, TextMessage):
                 print(message.from_user, ':', message.body)
+                response_picker(message)
+            else:
                 utility.handle_secondary_message_types(message)
-                # if handle_bot_names(message):
-                #    break
-                if isinstance(message, TextMessage):
-                    response_picker(message)
     except (IndexError, AttributeError) as error:
         print("No messages found.", error)
     return Response(status=200)
