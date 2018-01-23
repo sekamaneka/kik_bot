@@ -40,6 +40,7 @@ def incoming():
 
 
 def response_picker(message):
+    """Picks the appropriate response."""
     data = message.body
     analysis_bayes = utility.blobber(data)
     sentiment = analysis_bayes.sentiment
