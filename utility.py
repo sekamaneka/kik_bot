@@ -30,6 +30,7 @@ app, blobber, config, kik = setup()
 
 
 def run():
+    """Run the app."""
     app.run(host='0.0.0.0', port=int(config["port"]), debug=False)
 
 
