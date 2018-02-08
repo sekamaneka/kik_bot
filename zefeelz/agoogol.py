@@ -44,7 +44,10 @@ def incoming():
 def print_sentiment_scores(message):
     """Calculate sentiment score and send it."""
     snt = analyzer.polarity_scores(message.body)
-    text = "Your Score: {:.2f}%".format(snt['compound'] * 100)
+    if snt['compound'] == 0.0:
+        text = "I couldn't find any emotion in this text. :("
+    else:
+        text = "Your Score: {:.2f}%".format(snt['compound'] * 100)
     utility.send_messages(message, text_to_send=text)
 
 
