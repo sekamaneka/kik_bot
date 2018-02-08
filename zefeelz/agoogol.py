@@ -41,30 +41,11 @@ def incoming():
     return Response(status=200)
 
 
-
-def response_picker(message):
-    """Picks the appropriate response."""
-    data = message.body
-    analysis_bayes = utility.blobber(data)
-    sentiment = analysis_bayes.sentiment
-    subjectivity = analysis_bayes.subjectivity
-    polarity = analysis_bayes.polarity
-    sentiment_label = sentiment.classification
-    print(sentiment)
-    print(type(sentiment))
-    accuracy = max(sentiment.p_pos, sentiment.p_neg)
-    if polarity > 0:
-        utility.send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nPositivity: {}%".format(
-            subjectivity * 100, int(accuracy * 100), int(polarity * 100)))
-    if polarity < 0:
-        utility.send_messages(message, text_to_send="Subjectivity: {}%\nAccuracy: {}%\nNegativity: {}%".format(
-            subjectivity * 100, int(accuracy * 100), int(-polarity * 100)))
-    if polarity == 0:
-        utility.send_messages(message, text_to_send="Your tone is too neutral for me to determine something. Congratulations.")
-
 def print_sentiment_scores(message):
+    """Calculate sentiment score and send it."""
     snt = analyzer.polarity_scores(message.body)
-    utility.send_messages(message, text_to_send=str(snt))
+    text = "Your Score: {}\n".format(snt['compound'])
+    utility.send_messages(message, text_to_send=text)
 
 
 utility.run()
